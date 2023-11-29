@@ -1,0 +1,23 @@
+datasource db {
+  provider = "postgresql"
+  url      =  env("DESTINATION_DB_URI")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/bemi"
+}
+
+model Change {
+  id          String   @id
+  primaryKey  String   @map("primary_key")
+  values      Json
+  metadata    Json
+  database    String
+  schema      String
+  table       String
+  operation   String
+  committedAt DateTime @map("committed_at")
+
+  @@map("changes")
+}

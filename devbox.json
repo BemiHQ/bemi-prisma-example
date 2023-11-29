@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "postgresql": "latest",
+    "bun":        "latest"
+  },
+  "shell": {
+    "init_hook": null,
+    "scripts":   {}
+  }
+}

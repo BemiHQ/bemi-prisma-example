@@ -1,0 +1,10 @@
+version: "0.5"
+
+processes:
+  postgresql-source:
+    command: "cd .devbox/virtenv/postgresql && pg_ctl start -o \"-k $PGHOST\""
+    is_daemon: true
+    shutdown: 
+      command: "cd .devbox/virtenv/postgresql && pg_ctl stop -m fast"
+    availability:
+      restart: "always"

@@ -1,0 +1,43 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "bun@latest": {
+      "last_modified": "2023-11-26T23:14:46Z",
+      "resolved": "github:NixOS/nixpkgs/45827faa2132b8eade424f6bdd48d8828754341a#bun",
+      "source": "devbox-search",
+      "version": "1.0.14",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/kv9w6r2b43yfm0hm1ngxjkwxi3p4v36c-bun-1.0.14"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/hd23c00w38wdmv1l9k5xvz0l0h05xcpx-bun-1.0.14"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/rirvcfjgdk0a27hqsk40h2mx4p3c7q0w-bun-1.0.14"
+        }
+      }
+    },
+    "postgresql@latest": {
+      "last_modified": "2023-11-24T00:36:48Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/8b8c9407844599546393146bfac901290e0ab96b#postgresql",
+      "source": "devbox-search",
+      "version": "15.5",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/d7fbzdcxqdzbr2685xv734y26p520m7d-postgresql-15.5"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/vgz65fw2xaxc0nm87z85hpc2wqrcfv5b-postgresql-15.5"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/s241wqjizz77lgvkw7yj2ghpsld5bcl9-postgresql-15.5"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/hxpwfhslscfak9vh9ksxbzzpbkqlspgh-postgresql-15.5"
+        }
+      }
+    }
+  }
+}
