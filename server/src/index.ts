@@ -1,7 +1,6 @@
 import cors from "cors";
-import express from "express";
+import express, { Request } from "express";
 import { setContext } from "@bemi-db/prisma";
-import { Request } from "express";
 
 import { todosRouter } from "./todos.router";
 import { prisma } from "./prisma";
@@ -19,8 +18,8 @@ const main = async (): Promise<void> => {
   app.use(
     setContext(prisma, (req: Request) => ({
       apiEndpoint: req.url,
-      userID: (req as any).user?.id || 1,
-      queryParams: req.body,
+      userId: (req as any).user?.id || 1,
+      params: req.body,
     }))
   )
 

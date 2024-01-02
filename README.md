@@ -1,6 +1,6 @@
 # Bemi Prisma Example
 
-See the documentation here https://github.com/BemiHQ/prisma
+You can find a demo and detailed documentation here https://docs.bemi.io.
 
 ## System Dependencies
 
