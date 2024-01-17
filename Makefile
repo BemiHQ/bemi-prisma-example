@@ -1,7 +1,7 @@
 init:
 	devbox install && \
 	devbox run initdb && \
-		sed -i "s/#port = 5432/port = 5434/g" ./.devbox/virtenv/postgresql/data/postgresql.conf &&
+		sed -i "s/#port = 5432/port = 5434/g" ./.devbox/virtenv/postgresql/data/postgresql.conf && \
 		sed -i "s/#log_statement = 'none'/log_statement = 'all'/g" ./.devbox/virtenv/postgresql/data/postgresql.conf && \
 		sed -i "s/#logging_collector = off/logging_collector = on/g" ./.devbox/virtenv/postgresql/data/postgresql.conf && \
 		sed -i "s/#log_directory = 'log'/log_directory = 'log'/g" ./.devbox/virtenv/postgresql/data/postgresql.conf
@@ -13,9 +13,6 @@ create:
 
 delete:
 	devbox run "dropdb -p 5434 bemi_dev_source && dropuser -p 5434 postgres"
-
-reset:
-	devbox run "dropdb -p 5434 bemi_dev_source && createdb -p 5434 bemi_dev_source"
 
 install:
 	devbox run --env-file ./server/.env "bun install && \
@@ -32,7 +29,7 @@ up-server:
 	devbox run --env-file ./server/.env "cd server && bun --inspect src/index.ts"
 
 up-client:
-	devbox run "cd client && bun run react-scripts start"
+	devbox run "cd client && PORT=4002 bun run react-scripts start"
 
 up-postgres:
 	devbox services up postgresql-source
@@ -57,3 +54,6 @@ sh:
 
 migrate:
 	devbox run --env-file ./server/.env "cd server && bunx prisma migrate dev"
+
+reset:
+	devbox run --env-file ./server/.env "cd server && bunx prisma migrate reset"
