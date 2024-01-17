@@ -1,7 +1,7 @@
 init:
 	devbox install && \
 	devbox run initdb && \
-		sed -i "s/#port = 5432/port = 5434/g" ./.devbox/virtenv/postgresql/data/postgresql.conf &&
+		sed -i "s/#port = 5432/port = 5434/g" ./.devbox/virtenv/postgresql/data/postgresql.conf && \
 		sed -i "s/#log_statement = 'none'/log_statement = 'all'/g" ./.devbox/virtenv/postgresql/data/postgresql.conf && \
 		sed -i "s/#logging_collector = off/logging_collector = on/g" ./.devbox/virtenv/postgresql/data/postgresql.conf && \
 		sed -i "s/#log_directory = 'log'/log_directory = 'log'/g" ./.devbox/virtenv/postgresql/data/postgresql.conf
@@ -32,7 +32,7 @@ up-server:
 	devbox run --env-file ./server/.env "cd server && bun --inspect src/index.ts"
 
 up-client:
-	devbox run "cd client && bun run react-scripts start"
+	devbox run "cd client && PORT=4002 bun run react-scripts start"
 
 up-postgres:
 	devbox services up postgresql-source
