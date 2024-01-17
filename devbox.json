@@ -1,6 +1,6 @@
 {
   "packages": {
-    "postgresql": "latest",
+    "postgresql_13": "latest",
     "bun":        "latest"
   },
   "shell": {
