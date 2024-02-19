@@ -1,10 +1,10 @@
 import cors from "cors";
 import express, { Request } from "express";
 import { setContext } from "@bemi-db/prisma";
+import { expressMiddleware } from '@apollo/server/express4';
 
+import { apolloServer } from "./apollo-server";
 import { todosRouter } from "./todos.router";
-import { prisma } from "./prisma";
-import { bemiPrisma } from "./bemi-prisma";
 
 const main = async (): Promise<void> => {
   // console.log(await bemiPrisma.change.findMany())
@@ -16,14 +16,20 @@ const main = async (): Promise<void> => {
   app.use(cors());
 
   app.use(
-    setContext(prisma, (req: Request) => ({
+    setContext((req: Request) => ({
       apiEndpoint: req.url,
       userId: (req as any).user?.id || 1,
       params: req.body,
     }))
   )
-
   app.use("/", todosRouter);
+
+  await apolloServer.start();
+  app.use('/graphql', cors<cors.CorsRequest>(), express.json(), expressMiddleware(apolloServer, {
+    context: async ({ req, res }) => ({
+      userId: 1,
+    }),
+  }));
 
   app.listen(port, (): void => {
     console.log(`Server is running on port ${port}`);
