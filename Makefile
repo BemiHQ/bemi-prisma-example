@@ -22,8 +22,11 @@ install:
 			bun prisma generate --schema prisma/bemi.prisma && \
 		cd ../client && bun install"
 
-up:
+up: install
 	devbox run "bun run concurrently \"make up-server\" \"make up-client\""
+
+up-next: install
+	devbox run --env-file ./server/.env "cd server && bun next dev ./next-app -p 4003"
 
 up-server:
 	devbox run --env-file ./server/.env "cd server && bun --inspect src/index.ts"

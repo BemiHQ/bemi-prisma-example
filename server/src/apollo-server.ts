@@ -37,6 +37,21 @@ const resolvers = {
   },
 };
 
+// http://localhost:4001/graphql
+//
+// query TodosQuery {
+//   todos {
+//     id
+//   }
+// }
+
+// mutation AddTodo($task: String!) {
+//   addTodo(task: $task) {
+//     id
+//     task
+//     isCompleted
+//   }
+// }
 export const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,

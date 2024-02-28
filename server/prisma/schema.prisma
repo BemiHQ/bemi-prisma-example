@@ -12,6 +12,8 @@ datasource db {
 }
 
 model Todo {
+  @@map("todos")
+
   id        Int      @id @default(autoincrement())
   task      String   @db.VarChar(255)
   isCompleted Boolean  @default(false)
