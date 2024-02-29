@@ -1,13 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { bemiContext } from "@bemi-db/prisma";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../src/prisma";
 
-type ResponseData = {
-  message: string
-}
+type ResponseData = { todo: object }
 
-// http://localhost:4003/api/test
+// http://localhost:4003/api/next
 
 export default async function handler(
   req: NextApiRequest,
