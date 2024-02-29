@@ -14,7 +14,17 @@ datasource db {
 model Todo {
   @@map("todos")
 
-  id        Int      @id @default(autoincrement())
-  task      String   @db.VarChar(255)
+  id          Int      @id @default(autoincrement())
+  task        String   @db.VarChar(255)
   isCompleted Boolean  @default(false)
+  authorId    Int?
+  author      Author?  @relation(fields: [authorId], references: [id])
+}
+
+model Author {
+  @@map("authors")
+
+  id      Int     @id @default(autoincrement())
+  name    String
+  todos   Todo[]
 }
