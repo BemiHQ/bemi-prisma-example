@@ -1,8 +1,22 @@
 import { Request, Response } from "express";
 
 import { prisma } from "./prisma";
+// import { bemiPrisma } from "./bemiPrisma";
 
 export const todos = async (_req: Request, res: Response): Promise<void> => {
+  // const result = await bemiPrisma.change.findMany({
+  //   where: { table: "todo", context: { path: ['userId'], equals: 1 } },
+  //   orderBy: { committedAt: "desc" },
+  //   take: 1,
+  // });
+  // const result = await bemiPrisma.$queryRaw`
+  //   SELECT * FROM "changes"
+  //   WHERE "table" = 'todo' AND "context" @> '{"userId": 1}'
+  //   ORDER BY "committed_at" DESC
+  //   LIMIT 1
+  // `;
+  // console.log(result);
+
   const data = await prisma.todo.findMany();
   res.status(200).json(data);
 };

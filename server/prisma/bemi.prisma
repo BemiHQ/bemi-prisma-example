@@ -11,13 +11,15 @@ generator client {
 model Change {
   id          String   @id
   primaryKey  String   @map("primary_key")
-  values      Json
-  metadata    Json
+  before      Json
+  after       Json
+  context     Json
   database    String
   schema      String
   table       String
   operation   String
   committedAt DateTime @map("committed_at")
+  createdAt   DateTime @map("created_at")
 
   @@map("changes")
 }
