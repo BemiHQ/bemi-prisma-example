@@ -21,34 +21,21 @@ CREATE OR REPLACE PROCEDURE _bemi_create_triggers()
 AS $$
 DECLARE
   current_tablename TEXT;
-  pg_major_version INT;
 BEGIN
-  pg_major_version := (SELECT SPLIT_PART(setting, '.', 1)::INT FROM pg_settings WHERE name = 'server_version');
   FOR current_tablename IN
     SELECT tablename FROM pg_tables WHERE schemaname = 'public'
   LOOP
-    IF (pg_major_version >= 14) THEN
-      EXECUTE format(
-        'CREATE OR REPLACE TRIGGER _bemi_row_trigger_%s
-        BEFORE INSERT OR UPDATE OR DELETE ON %I FOR EACH ROW
-        EXECUTE FUNCTION _bemi_row_trigger_func()',
-        current_tablename, current_tablename
-      );
-    ELSE
-      EXECUTE format(
-        'DROP TRIGGER IF EXISTS _bemi_row_trigger_%s ON %I',
-        current_tablename, current_tablename
-      );
-      EXECUTE format(
-        'CREATE TRIGGER _bemi_row_trigger_%s
-        BEFORE INSERT OR UPDATE OR DELETE ON %I FOR EACH ROW
-        EXECUTE FUNCTION _bemi_row_trigger_func()',
-        current_tablename, current_tablename
-      );
-    END IF;
+    EXECUTE format(
+      'CREATE OR REPLACE TRIGGER _bemi_row_trigger_%s
+      BEFORE INSERT OR UPDATE OR DELETE ON %I FOR EACH ROW
+      EXECUTE FUNCTION _bemi_row_trigger_func()',
+      current_tablename, current_tablename
+    );
   END LOOP;
 END;
 $$ LANGUAGE plpgsql;
+
+CALL _bemi_create_triggers();
 
 CREATE OR REPLACE FUNCTION _bemi_create_table_trigger_func()
   RETURNS event_trigger
@@ -58,10 +45,11 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-DROP EVENT TRIGGER IF EXISTS _bemi_create_table_trigger;
-
-CREATE EVENT TRIGGER _bemi_create_table_trigger
-ON ddl_command_end WHEN TAG IN ('CREATE TABLE')
-EXECUTE FUNCTION _bemi_create_table_trigger_func();
-
-CALL _bemi_create_triggers();
+DO $$
+BEGIN
+  DROP EVENT TRIGGER IF EXISTS _bemi_create_table_trigger;
+  CREATE EVENT TRIGGER _bemi_create_table_trigger ON ddl_command_end WHEN TAG IN ('CREATE TABLE') EXECUTE FUNCTION _bemi_create_table_trigger_func();
+EXCEPTION WHEN insufficient_privilege THEN
+  RAISE NOTICE 'Please execute "CALL _bemi_create_triggers();" manually after adding new tables you want to track. (%) %.', SQLSTATE, SQLERRM;
+END
+$$ LANGUAGE plpgsql;
