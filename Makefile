@@ -9,7 +9,8 @@ init:
 create:
 	devbox run "createdb -p 5434 bemi_dev_source && \
 		createuser -p 5434 --superuser --replication postgres && \
-		psql -p 5434 -U postgres -c \"ALTER SYSTEM SET wal_level = logical;\""
+		psql -p 5434 -U postgres -c \"ALTER SYSTEM SET wal_level = logical;\"" && \
+		make down-services up-services
 
 delete:
 	devbox run "dropdb -p 5434 bemi_dev_source && dropuser -p 5434 postgres"
