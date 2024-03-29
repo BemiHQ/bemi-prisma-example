@@ -16,12 +16,15 @@ delete:
 	devbox run "dropdb -p 5434 bemi_dev_source && dropuser -p 5434 postgres"
 
 install:
+	rm -rf ./server/node_modules/@bemi-db && \
 	devbox run --env-file ./server/.env "bun install && \
 		cd server && \
 		  bun install && \
 			bun prisma generate && \
 			bun prisma generate --schema prisma/bemi.prisma && \
-		cd ../client && bun install"
+		cd ../client && bun install" && \
+	cd ../bemi-prisma && pnpm install && pnpm build && cd - && \
+	cp -r ../bemi-prisma/dist/* ./server/node_modules/@bemi-db/prisma/dist && cp ../bemi-prisma/package.json ./server/node_modules/@bemi-db/prisma/package.json
 
 up: install
 	devbox run "bun run concurrently \"make up-server\" \"make up-client\""
