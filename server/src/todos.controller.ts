@@ -17,6 +17,59 @@ export const todos = async (_req: Request, res: Response): Promise<void> => {
   // `;
   // console.log(result);
 
+  // CRUD operations
+  // const upsertUser = await prisma.todo.upsert({
+  //   where: { id: 60 },
+  //   update: { task: 'Task 3' },
+  //   create: { task: 'Task 3', isCompleted: false },
+  // })
+
+  // Raw SQL queries
+  // let result = await prisma.$executeRaw`SELECT * FROM "Todo"`
+  // console.log(result)
+  // result = await prisma.$executeRaw`UPDATE "public"."Todo" SET "task" = now()::text WHERE "id" = 60`
+  // console.log(result)
+
+  // Mass operations
+  // let result = await prisma.todo.createMany({
+  //   data: [
+  //     { task: "Task 1", isCompleted: false },
+  //     { task: "Task 2", isCompleted: false },
+  //   ],
+  // })
+  // console.log(result)
+
+  // Transactions
+  // const [posts, totalPosts] = await prisma.$transaction([
+  //   prisma.todo.findMany(),
+  //   prisma.todo.create({ data: { task: 'Task 4', isCompleted: false } }),
+  //   prisma.todo.update({ where: { id: 60 }, data: { task: 'Task 0' } })
+  // ])
+
+  // Transactions with raw queries
+  // const [userList, updateUser] = await prisma.$transaction([
+  //   prisma.$queryRaw`SELECT * FROM "Todo"`,
+  //   prisma.$executeRaw`UPDATE "public"."Todo" SET "task" = now()::text WHERE "id" = 60`,
+  //   prisma.$executeRaw`UPDATE "public"."Todo" SET "task" = now()::text WHERE "id" = 60`,
+  // ])
+
+  // Interactive transactions
+  // await prisma.$transaction(async (tx: any) => {
+  //   let result = await tx.todo.create({ data: { task: 'Task 5', isCompleted: false } })
+  //   console.log(result)
+  // })
+
+  // Nested queries
+  // let result = await prisma.todo.update({
+  //   where: { id: 1 },
+  //   data: {
+  //     author: {
+  //       create: { name: 'Hi' },
+  //     },
+  //   },
+  // })
+  // console.log(result)
+
   const data = await prisma.todo.findMany();
   res.status(200).json(data);
 };
