@@ -49,7 +49,7 @@ function App() {
         title: "To do changed",
         description: "Successfully changed status",
         status: "success",
-        duration: 4000,
+        duration: 3000,
         isClosable: true,
       });
     }
@@ -63,7 +63,7 @@ function App() {
         title: "To do removed",
         description: "Successfully removed from the list",
         status: "warning",
-        duration: 4000,
+        duration: 3000,
         isClosable: true,
       });
     }
@@ -84,7 +84,7 @@ function App() {
         title: "To do added",
         description: `${newTodo["task"]} added to the list`,
         status: "success",
-        duration: 4000,
+        duration: 3000,
         isClosable: true,
       });
     }
