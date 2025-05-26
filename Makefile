@@ -10,7 +10,7 @@ create:
 	devbox run "createdb -p 5434 bemi_dev_source && \
 		createuser -p 5434 --superuser --replication postgres && \
 		psql -p 5434 -U postgres -c \"ALTER SYSTEM SET wal_level = logical;\"" && \
-		make down-services up-services
+		make pg-down pg-up
 
 delete:
 	devbox run "dropdb -p 5434 bemi_dev_source && dropuser -p 5434 postgres"
@@ -35,20 +35,17 @@ up-server:
 up-client:
 	devbox run "cd client && PORT=4002 bun run react-scripts start"
 
-up-postgres:
-	devbox services up postgresql-source
-
-up-services:
+pg-up:
 	devbox services start postgresql-source
 
-down-services:
+pg-down:
 	devbox services stop
+
+pg-logs:
+	tail -f .devbox/virtenv/postgresql/data/log/postgresql-*.log
 
 psql:
 	devbox run psql bemi_dev_source -p 5434
-
-logs:
-	tail -f .devbox/virtenv/postgresql/data/log/postgresql-*.log
 
 ps:
 	@devbox services ls

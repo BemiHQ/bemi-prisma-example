@@ -1,6 +1,6 @@
 import cors from "cors";
 import express, { Request } from "express";
-import { setContext } from "@bemi-db/prisma";
+import { bemiMiddleware } from "@bemi-db/prisma";
 import { expressMiddleware } from '@apollo/server/express4';
 
 import { apolloServer } from "./apollo-server";
@@ -16,7 +16,7 @@ const main = async (): Promise<void> => {
   app.use(cors());
 
   app.use(
-    setContext((req: Request) => ({
+    bemiMiddleware((req: Request) => ({
       apiEndpoint: req.url,
       userId: (req as any).user?.id || 1,
       params: req.body,

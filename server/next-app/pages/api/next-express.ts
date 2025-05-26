@@ -1,4 +1,4 @@
-import { setContext } from "@bemi-db/prisma";
+import { bemiMiddleware } from "@bemi-db/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createRouter, expressWrapper } from "next-connect";
 
@@ -12,7 +12,7 @@ const router = createRouter<NextApiRequest, NextApiResponse<ResponseData>>();
 
 router
   .use(
-    setContext((req: any) => ({
+    bemiMiddleware((req: any) => ({
       url: req.url,
       userToken: req.cookies['user-token'],
     })) as any
@@ -23,7 +23,7 @@ router
   })
 
 export default router.handler({
-  onError: (err: any, req: NextApiRequest, res: NextApiResponse) => {
+  onError: (err: any, req: NextApiReguest, res: NextApiResponse) => {
     console.error(err.stack);
     res.status(err.statusCode || 500).end(err.message);
   },

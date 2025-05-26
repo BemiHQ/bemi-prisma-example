@@ -1,4 +1,4 @@
-import { bemiContext } from "@bemi-db/prisma";
+import { setBemiContext } from "@bemi-db/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../src/prisma";
@@ -11,7 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  bemiContext({ url: req.url, userToken: req.cookies['user-token'] });
+  setBemiContext({ url: req.url, userToken: req.cookies['user-token'] });
 
   const todo = await prisma.todo.create({ data: { task: 'Next', isCompleted: false } });
 
